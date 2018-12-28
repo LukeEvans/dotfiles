@@ -131,21 +131,8 @@ alias gup="git pull -r -p --autostash"
 # Make zsh know about hosts already accessed by SSH
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-function pssh() {
-  ssh -i ~/.ssh/jumpcloud tyler.thrailkill@$1 $2
-}
-
 function pr() {
   hub pull-request -ocp -b $1 -a snowe2010 -r $2 -l $3
-}
-
-function authorities() {
-  git checkout -b feature/$1
-  java -jar ~/Documents/dev/iprojects/promontech-backend/authoritygenerator/target/authority-generator-1.0-SNAPSHOT.jar
-  git add iam-deploy/src/main/resources/default_security_groups.yml
-  git commit -m "$1 update authorities"
-  gpsup
-  hub pull-request -cp -b develop -a snowe2010 -r dallasacook,zhouij,levans002 -m "[$1] Update authorities" -l authorities
 }
 
 #### git aliases ####
