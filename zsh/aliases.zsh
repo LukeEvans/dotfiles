@@ -2,7 +2,7 @@
 alias reload!='. ~/.zshrc'
 
 # alias history=history
-alias cls='clear' # Good 'ol Clear Screen command
+alias c='clear' # Good 'ol Clear Screen command
 alias findextension="find . -type f -name "
 alias deleteextension="find . -type f -delete -name "
 

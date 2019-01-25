@@ -8,7 +8,7 @@ if [[ -v ZSH_PROF ]]; then
 fi
 
 # # shortcut to this dotfiles path is $DOTFILES
-export DOTFILES=$HOME/.dotfiles
+export DOTFILES=$HOME/dotfiles
 
 # # Stash your environment variables in ~/.localrc. This means they'll stay out
 # # of your main dotfiles repository (which may be public, like this one), but
@@ -54,9 +54,15 @@ eval "$(tmuxifier init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# disable temporarily
-# export PATH="$HOME/.jenv/bin:$PATH"
-# eval "$(jenv init -)"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
 eval "$(rbenv init -)"
 
 echo $SECONDS
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/lukeevans/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/lukeevans/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/lukeevans/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/lukeevans/google-cloud-sdk/completion.zsh.inc'; fi
