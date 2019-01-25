@@ -1,4 +1,4 @@
-# snowe does dotfiles
+# levans does dotfiles
 
 Modified from holman's dotfiles:
 
