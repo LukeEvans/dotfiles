@@ -33,6 +33,8 @@ brew 'unrar'
 brew 'wget'
 brew 'yarn'
 brew 'zsh'
+brew 'pwgen'
+brew 'packer'
 
 cask 'fantastical'
 cask 'flux'

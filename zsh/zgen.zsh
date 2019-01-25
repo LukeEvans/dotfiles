@@ -72,7 +72,7 @@ SPACESHIP_PROMPT_ORDER=(
   char          # Prompt character
 )
 
-export RPROMPT='$(git_prompt_useremail_symbol) ' # make right prompt display which user I'm committing as
+# export RPROMPT='$(git_prompt_useremail_symbol) ' # make right prompt display which user I'm committing as
 export RIPZ_TEXT='💋'
 
 # look into timewarrior

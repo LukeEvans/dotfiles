@@ -59,8 +59,6 @@
         renameLimit = 10000
 [difftool "intellij"]
         cmd = /Applications/IntelliJ\\ IDEA.app/Contents/MacOS/idea diff $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE")
-[commit]
-        gpgsign = true
 [advice]
 	pushNonFastForward = false
 	statusHints = false

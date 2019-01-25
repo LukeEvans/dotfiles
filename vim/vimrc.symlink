@@ -12,7 +12,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=$HOME/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -22,6 +22,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
+Bundle 'christoomey/vim-tmux-navigator'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -38,11 +39,26 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-let mapleader = " "
+" keyboard shortcuts
+let mapleader = ","
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
 map <Space> <leader>
-nnoremap <leader>ne :NERDTree<cr>
+nnoremap <leader>d :NERDTree<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>q :q<cr>
+inoremap jk <ESC>
+
+" Fix Cursor in TMUX
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 
 syntax on
@@ -69,29 +85,8 @@ else
 endif
 
 set whichwrap+=<,>,h,l,[,]
-
-set relativenumber
-
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <C-n> :call NumberToggle()<cr>
-
-:au FocusLost * :set number
-:au FocusGained * :set relativenumber
-
+set number
 set pastetoggle=<F3>
-
-
-
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
-
 
 " show leading spaces
 " hi Conceal guibg=NONE ctermbg=NONE ctermfg=DarkGrey

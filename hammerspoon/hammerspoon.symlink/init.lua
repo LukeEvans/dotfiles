@@ -89,21 +89,15 @@ Install:andUse("RecursiveBinder", {
         id = function(id) return function () hs.application.launchOrFocusByBundleID(id) end end
 
         app_keymap = {
-            [s.singleKey('s', 'Slack')] = id('com.tinyspeck.slackmacgap'),
+            [s.singleKey('k', 'Slack')] = id('com.tinyspeck.slackmacgap'),
             [s.singleKey('d', 'Fantastical')] = id('com.flexibits.fantastical2.mac'),
-            [s.singleKey('f', 'Firefox')] = id('org.mozilla.firefox'),
-            [s.singleKey('t', 'iTerm')] = id('com.googlecode.iterm2'),
-            [s.singleKey('e', 'Postbox')] = id('com.postbox-inc.postbox'),
+            [s.singleKey('c', 'Chrome')] = id('com.google.Chrome'),
+            [s.singleKey('i', 'iTerm')] = id('com.googlecode.iterm2'),
             [s.singleKey('l', 'Sublime Text')] = id('com.sublimetext.3'),
             [s.singleKey('m', 'Messages')] = id('com.apple.iChat'),
-            [s.singleKey('y', 'Spotify')] = id('com.spotify.client'),
-            [s.singleKey('i', 'IDEA')] = id('com.jetbrains.intellij'),
-            [s.singleKey('r', 'RubyMine')] = id('com.jetbrains.rubymine'),
-            [s.singleKey('g', 'SourceTree')] = id('com.torusknot.SourceTreeNotMAS'),
-            [s.singleKey('c', 'VS Code')] = id('com.microsoft.VSCode'),
-            [s.singleKey('k', 'Kitematic')] = id('com.electron.kitematic'),
+            [s.singleKey('s', 'Spotify')] = id('com.spotify.client'),
+            [s.singleKey('j', 'IDEA')] = id('com.jetbrains.intellij'),
             [s.singleKey('p', 'Postman')] = id('com.postmanlabs.mac'),
-            [s.singleKey('o', 'Canary')] = id('com.google.Chrome.canary'),
         }
         hs.hotkey.bind('alt', 'a', s.recursiveBind(app_keymap))
 
@@ -193,24 +187,3 @@ spotify_watcher = hs.application.watcher.new(function(app_name, event_type, app)
 end)
 -- spotify_watcher:start()
 
-function walk_around_notification() 
-    print("sending notification to take a break")
-    hs.notify.new({title = 'Break Time', informativeText = "TAKE A BREAK!!!", autoWithdraw = false, withdrawAfter = 0}):send()
-end
-notify_table = {}
-for h=8,18 do 
-    print("creating timer for " .. h .. ":00")
-    table.insert(notify_table,
-        hs.timer.doAt(h..":00","1d", function () 
-            print("sending notification to take a break at " .. h .. ": 00")
-            hs.notify.new({title = 'Break Time', informativeText = "TAKE A BREAK!!!", autoWithdraw = false, withdrawAfter = 0}):send()
-        end)
-    )
-    print("creating timer for " .. h .. ":30")
-    table.insert(notify_table,
-        hs.timer.doAt(h..":30","1d", function () 
-            print("sending notification to take a break at " .. h .. ": 30")
-            hs.notify.new({title = 'Break Time', informativeText = "TAKE A BREAK!!!", autoWithdraw = false, withdrawAfter = 0}):send()
-        end)
-    ) 
-end
