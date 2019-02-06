@@ -97,3 +97,7 @@ set pastetoggle=<F3>
 "
 " set pasteboard to mac's system clipboard
 set clipboard=unnamed
+
+" IntelliJ settings
+set visualbell
+set noerrorbells
