@@ -39,6 +39,7 @@
         excludesfile = ~/.gitignore
         editor = vim
 	commentChar = ]
+	autocrlf = input
 [apply]
         whitespace = nowarn
 [mergetool]

@@ -16,6 +16,7 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 obj.canvas = nil
 obj.timer = nil
+obj.startTime = nil
 
 function obj:init()
     self.canvas = hs.canvas.new({x=0, y=0, w=0, h=0}):show()
@@ -25,13 +26,13 @@ function obj:init()
     self.canvas[1] = {
         type = "rectangle",
         action = "fill",
-        fillColor = hs.drawing.color.osx_red,
+        fillColor = hs.drawing.color.osx_green,
         frame = {x="0%", y="0%", w="0%", h="100%"}
     }
     self.canvas[2] = {
         type = "rectangle",
         action = "fill",
-        fillColor = hs.drawing.color.osx_green,
+        fillColor = hs.drawing.color.osx_yellow,
         frame = {x="0%", y="0%", w="0%", h="100%"}
     }
 end
@@ -54,7 +55,12 @@ local function canvasCleanup()
     obj.canvas:frame({x=0, y=0, w=0, h=0})
 end
 
+local function minutesRemaining()
+    return math.ceil(obj.secondsRemaining / 60)
+end 
+
 function obj:startFor(minutes)
+    obj.startTime = os.date("%X")
     if obj.timer then
         canvasCleanup()
     else
@@ -64,22 +70,45 @@ function obj:startFor(minutes)
         -- Set minimum visual step to 2px (i.e. Make sure every trigger updates 2px on screen at least.)
         local minimumStep = 2
         local secCount = math.ceil(60*minutes)
+        obj.secondsRemaining = secCount 
         obj.loopCount = 0
         if mainRes.w/secCount >= 2 then
             obj.timer = hs.timer.doEvery(1, function()
                 obj.loopCount = obj.loopCount+1/secCount
                 obj:setProgress(obj.loopCount, minutes)
+                obj.secondsRemaining = obj.secondsRemaining - 1
             end)
         else
             local interval = 2/(mainRes.w/secCount)
             obj.timer = hs.timer.doEvery(interval, function()
                 obj.loopCount = obj.loopCount+1/mainRes.w*2
                 obj:setProgress(obj.loopCount, minutes)
+                obj.secondsRemaining = obj.secondsRemaining - 1
             end)
         end
     end
 
     return self
+end
+
+local function toast(title, informativeText)
+    hs.notify.new({
+        title = title,
+        informativeText = informativeText
+    }):send()
+end
+
+--- CountDown:showRemaining()
+--- Method
+--- Set the progress of visual indicator to `progress`.
+---
+
+function obj:showRemaining(notifystr)
+    if obj.timer and obj.timer:running() then
+        toast("Minutes remaining: " .. minutesRemaining(), null)
+    else 
+        toast("No timer running", null)
+    end
 end
 
 --- CountDown:pauseOrResume()
@@ -91,8 +120,10 @@ function obj:pauseOrResume()
     if obj.timer then
         if obj.timer:running() then
             obj.timer:stop()
+            toast("Paused", "Minutes remaining: " .. minutesRemaining())
         else
             obj.timer:start()
+            toast("Resumed", "Minutes remaining: " .. minutesRemaining())
         end
     end
 end
@@ -114,10 +145,8 @@ function obj:setProgress(progress, notifystr)
     if progress >= 1 then
         canvasCleanup()
         if notifystr then
-            hs.notify.new({
-                title = "Time(" .. notifystr .. " mins) is up!",
-                informativeText = "Now is " .. os.date("%X")
-            }):send()
+            toast("Time(" .. notifystr .. " mins) is up!", "Timer started at: " .. obj.startTime)
+            obj.secondsRemaining = 0
         end
     else
         obj.canvas[1].frame.w = tostring(progress)

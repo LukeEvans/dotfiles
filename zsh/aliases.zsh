@@ -21,6 +21,13 @@ alias kgs="k get services"
 alias kl="k logs -f $1"
 alias kdp="k delete pod $1"
 alias gco="git checkout --no-guess"
+alias s="subl ."
+
+function pr() {
+  git fetch upstream pull/$1/head:pull/$1 && git checkout pull/$1
+}
+
+function pr
 
 cgit() {
   c_repos=$(find . -maxdepth 2 -name .git -type d -print | cut -d'/' -f2)
@@ -84,7 +91,7 @@ alias unexport='unset'
 
 alias whereami=display_info
 
-alias rm='rm -i'
+#alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
@@ -131,9 +138,6 @@ alias gup="git pull -r -p --autostash"
 # Make zsh know about hosts already accessed by SSH
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-function pr() {
-  hub pull-request -ocp -b $1 -a snowe2010 -r $2 -l $3
-}
 
 #### git aliases ####
 alias grhh="git reset --hard origin/develop"
@@ -143,3 +147,7 @@ alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias weather="curl wttr.in/Denver"
 alias cat=bat
 alias b="./gradlew build"
+
+### sbt aliases ###
+alias sbts="sbt -DskipTests=true -mem 3200"
+alias sbt="sbt -mem 3200"

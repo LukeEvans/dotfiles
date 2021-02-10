@@ -35,6 +35,7 @@ brew 'yarn'
 brew 'zsh'
 brew 'pwgen'
 brew 'packer'
+brew 'the_silver_searcher'
 
 cask 'fantastical'
 cask 'flux'

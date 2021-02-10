@@ -37,7 +37,6 @@ Install:andUse("Caffeine", {
     start   = true,
     hotkeys = { toggle = { hyper, "1" } },
 })
-spoon.Caffeine:clicked() -- start caffeine by default
 Install:andUse("Keychain")
 Install:andUse("Token", {
     hotkeys = {
@@ -52,13 +51,6 @@ Install:andUse("MoveSpaces", {
 })
 Install:andUse("Reload", {
     hotkeys = { reload = {{"cmd", "shift", "ctrl"}, "R"} }
-})
-Install:andUse("Tunnelblick", {
-    config = {
-        username        = "tyler.thrailkill",
-        password_fn     = function() return spoon.Keychain:login_keychain("token_tunnel_pass") .. spoon.Token:get_token() end,
-        connection_name = "promontech-openvpn-test"
-    }
 })
 Install:andUse("Pastebin", {
     config = {
@@ -88,16 +80,20 @@ Install:andUse("RecursiveBinder", {
         -- Curried function so it isn't called immediately
         id = function(id) return function () hs.application.launchOrFocusByBundleID(id) end end
 
+        -- Get bundle with: osascript -e 'id of app "Zoom.us"'
         app_keymap = {
             [s.singleKey('k', 'Slack')] = id('com.tinyspeck.slackmacgap'),
             [s.singleKey('d', 'Fantastical')] = id('com.flexibits.fantastical2.mac'),
             [s.singleKey('c', 'Chrome')] = id('com.google.Chrome'),
+            [s.singleKey('f', 'Firefox')] = id('org.mozilla.firefox'),
             [s.singleKey('i', 'iTerm')] = id('com.googlecode.iterm2'),
             [s.singleKey('l', 'Sublime Text')] = id('com.sublimetext.3'),
             [s.singleKey('m', 'Messages')] = id('com.apple.iChat'),
             [s.singleKey('s', 'Spotify')] = id('com.spotify.client'),
             [s.singleKey('j', 'IDEA')] = id('com.jetbrains.intellij'),
             [s.singleKey('p', 'Postman')] = id('com.postmanlabs.mac'),
+            [s.singleKey('v', 'Zoom')] = id('us.zoom.xos'),
+            [s.singleKey('n', 'Notion')] = id('notion.id'),
         }
         hs.hotkey.bind('alt', 'a', s.recursiveBind(app_keymap))
 
@@ -110,7 +106,6 @@ Install:andUse("RecursiveBinder", {
 
         tools_keymap = {
             [s.singleKey('f', 'file visible')] = function() hs.eventtap.keyStroke({'cmd', 'shift'}, '.') end,
-            [s.singleKey('t', 'tunnelblick')] = function() spoon.Tunnelblick:connect() end,
             [s.singleKey('h', 'hammerspoon console')] = function() hs.toggleConsole() end,
             [s.singleKey('v', 'paste unblocker')] = function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end,
             [s.singleKey('s', 'spotify song')] = function() hs.spotify.displayCurrentTrack() end,
@@ -168,6 +163,15 @@ Install:andUse("RecursiveBinder", {
 })
 
 hs.hotkey.bindSpec({"alt", "h"}, 'Show Window Hints', function() hs.hints.windowHints() end)
+
+-- Timer
+hs.hotkey.bindSpec({"alt", "w"}, 'Show Window Hints', function() spoon.CountDown:startFor(25) end)
+hs.hotkey.bindSpec({"alt", "1"}, 'Show Window Hints', function() spoon.CountDown:startFor(1) end)
+hs.hotkey.bindSpec({"alt", "5"}, 'Show Window Hints', function() spoon.CountDown:startFor(5) end)
+hs.hotkey.bindSpec({"alt", "q"}, 'Show Window Hints', function() spoon.CountDown:startFor(5) end)
+hs.hotkey.bindSpec({"alt", "2"}, 'Show Window Hints', function() spoon.CountDown:startFor(20) end)
+hs.hotkey.bindSpec({"alt", "e"}, 'Show Window Hints', function() spoon.CountDown:pauseOrResume() end)
+hs.hotkey.bindSpec({"alt", "s"}, 'Show Window Hints', function() spoon.CountDown:showRemaining() end)
 
 spaces = require("hs._asm.undocumented.spaces")
 spotify_watcher = hs.application.watcher.new(function(app_name, event_type, app)

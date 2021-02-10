@@ -12,7 +12,7 @@ if ! zgen saved; then
   zgen load denysdovhan/spaceship-prompt spaceship    # awesome terminal prompt
   zgen load wfxr/forgit                               # fzf ♥️ git
   # zgen load Valiev/almostontop                      # clear prompt when new command is run
-  zgen load MikeDacre/careful_rm                      # overrides rm to make it safer and add ability to trash
+  # zgen load MikeDacre/careful_rm                      # overrides rm to make it safer and add ability to trash
   zgen load hlissner/zsh-autopair                     # auto-close and delete matching delimiters 
   zgen load Tarrasch/zsh-bd                           # jump back directories. has autocomplete as well
   zgen load RobSis/zsh-completion-generator
